@@ -11,7 +11,5 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', array('as' => 'welcome', 'uses' => 'HomeController@welcome'));
+Route::get('/signup', array('as' => 'signup', 'uses' => 'UserController@signup'));
