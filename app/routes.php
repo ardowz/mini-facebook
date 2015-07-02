@@ -12,4 +12,17 @@
 */
 
 Route::get('/', array('as' => 'welcome', 'uses' => 'HomeController@welcome'));
+
 Route::get('/signup', array('as' => 'signup', 'uses' => 'UserController@signup'));
+Route::post('/signupAction', array('as' => 'signupAction', 'uses' => 'UserController@signupAction'));
+
+Route::get('/login', array('as' => 'login', 'uses' => 'UserController@login'));
+Route::post('/loginAction', array('as' => 'loginAction', 'uses' => 'UserController@loginAction'));
+
+Route::group(array('before' => 'auth'), function() {  
+  
+    Route::get('/home', array('as' => 'home', 'uses' => 'HomeController@home'));
+    
+    Route::post('/newPost', array('as' => 'newPost', 'uses' => 'PostController@newAction'));
+  
+});
