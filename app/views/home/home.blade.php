@@ -45,8 +45,8 @@
       @foreach ($posts as $post)
         <div class='row'>
             <div class='col-md-8'>
-              <p>{{ $post['post'] }}</p>
-              <p>{{ $post['name'] }} - {{ $post['datetime'] }}</p>
+              <h3><p>{{ $post['post'] }}</p></h3>
+              <small><p>{{ $post['name'] }} - {{ $post['datetime'] }}</p></small>
             </div>
         </div>
       @endforeach

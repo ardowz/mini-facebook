@@ -21,7 +21,8 @@ class Post extends Eloquent {
             ->whereIn('posts.user_id', function($query) use ($userID) {
                 $query->select('friend_user_id')
                     ->from('friends')
-                    ->where('friends.user_id', '=', $userID);
+                    ->where('friends.user_id', '=', $userID)
+                    ->where('isAccepted', '=', 1);
             })
             ->orWhere('posts.user_id', '=', $userID)
             ->select('users.id as user_id', 'users.first_name', 'users.last_name','posts.id as post_id' , 'posts.post_data', 'posts.updated_at')
