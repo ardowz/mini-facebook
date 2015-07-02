@@ -21,8 +21,11 @@ Route::post('/loginAction', array('as' => 'loginAction', 'uses' => 'UserControll
 
 Route::group(array('before' => 'auth'), function() {  
   
-    Route::get('/home', array('as' => 'home', 'uses' => 'HomeController@home'));
+    Route::get('/home/{friend_user_id?}', array('as' => 'home', 'uses' => 'HomeController@home'));
     
     Route::post('/newPost', array('as' => 'newPost', 'uses' => 'PostController@newAction'));
   
+    Route::post('/findUser', array('as' => 'findUser', 'uses' => 'FriendController@friends'));
+    Route::post('/addFriendAction', array('as' => 'addFriendAction', 'uses' => 'FriendController@addFriendAction'));
+    Route::get('/friends', array('as' => 'friends', 'uses' => 'FriendController@friends'));
 });

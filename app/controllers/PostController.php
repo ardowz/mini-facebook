@@ -6,13 +6,11 @@ Class PostController extends BaseController {
         $userID = Auth::user()->id;
         $post = Input::get('post');
       
-        //default true
-        $isREST = isset(Input::get('isRest') ? Input::get('isRest') : true);
-        if ($isRest) {
-          
-        } else {
-            return Redirect::to('home');
-        }
-        
+        $postModel = new Post;
+        $postModel->user_id = $userID;
+        $postModel->post_data = $post;
+        $postModel->save();
+
+        return Redirect::to('home');
     }
 }

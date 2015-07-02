@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Home')
+@section('title', 'Friends')
 
 @section('content')
 
@@ -14,8 +14,13 @@
   
   <div class='row'>
     <div class='col-md-1'></div>
-    <div class='col-md-2'>@yield('friends')</div>
-    <div class='col-md-8'>@yield('posts')</div>
+    <div class='col-md-10'>@yield('findUser')</div>
+    <div class='col-md-1'></div>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>@yield('friends')</div>
     <div class='col-md-1'></div>
   </div>
 @stop

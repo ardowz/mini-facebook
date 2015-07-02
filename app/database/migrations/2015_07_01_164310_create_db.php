@@ -18,9 +18,12 @@ class CreateDb extends Migration {
         $table->string('password');
         $table->string('first_name');
         $table->string('last_name');
+        $table->tinyInteger('role_id')->unsigned()->default(0);
         $table->timestamps();
         $table->unique('email');
       });
+    
+      DB::statement('ALTER TABLE `users` ADD FULLTEXT (last_name, first_name, email)');
     
       Schema::create('posts', function($table) {
         $table->increments('id');
@@ -38,8 +41,10 @@ class CreateDb extends Migration {
        $table->increments('id');
        $table->integer('user_id')->unsigned();
        $table->integer('friend_user_id')->unsigned();
+       $table->tinyInteger('isAccepted')->unsigned()->default(0);
        $table->timestamps();
        $table->index(array('user_id', 'friend_user_id'));
+       $table->index('friend_user_id');
      });
 	}
 
