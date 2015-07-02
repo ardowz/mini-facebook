@@ -14,8 +14,9 @@
     </div>
   {{ Form::close() }}
 
+  <h4>{{ link_to_route('friends', 'Friends') }}</h4>
+  
   @if (count($friends) > 0)
-    <h2>Friends</h2>
     <ul class='list-group'>
       @foreach ($friends as $userID => $friend)
           <li class='list-group-item'>

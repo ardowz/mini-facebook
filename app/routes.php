@@ -27,5 +27,9 @@ Route::group(array('before' => 'auth'), function() {
   
     Route::post('/findUser', array('as' => 'findUser', 'uses' => 'FriendController@friends'));
     Route::post('/addFriendAction', array('as' => 'addFriendAction', 'uses' => 'FriendController@addFriendAction'));
+    Route::post('/friendAction', array('as' => 'friendAction', 'uses' => 'FriendController@friendAction'));
+    Route::post('/friendDeleteAction', array('as' => 'friendDeleteAction', 'uses' => 'FriendController@friendDeleteAction'));
     Route::get('/friends', array('as' => 'friends', 'uses' => 'FriendController@friends'));
+  
+    Route::get('/logout', array('as' => 'logout', 'uses' => 'UserController@logoutAction'));
 });

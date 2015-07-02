@@ -5,14 +5,17 @@ Class FriendController extends BaseController {
     {
         
         $searchString = Input::get('search_user_string');
-        $foundUsers = $this->findUsers($searchString, Auth::user()->id);
+        $userID = Auth::user()->id;
         
-        $friendList = $this->getFriends(Auth::user()->id);
+        $foundUsers = $this->findUsers($searchString, $userID);
+        $friendList = $this->getFriends($userID);
+        $friendsWaiting = $this->getWaitingFriends($userID);
       
         return View::make('home.friends', array(
             'foundUsers' => $foundUsers,
             'friendList' => $friendList,
             'searchString' => $searchString,
+            'friendsWaiting' => $friendsWaiting,
             'firstName' => Auth::user()->first_name,
         ));
     }
@@ -31,7 +34,7 @@ Class FriendController extends BaseController {
                 $userModel = new User();
                 $users = $userModel->searchName($searchString, $userID);
             } else {
-                $users = User::LikeEmail($searchString)->NotMyself->get();
+                $users = User::LikeEmail($searchString)->NotMyself($userID)->get();
               
             }
             
@@ -72,5 +75,47 @@ Class FriendController extends BaseController {
         } 
         
         return $output;
+    }
+  
+    public function getWaitingFriends($userID)
+    {
+        $output = array();
+        $friendModel = new Friend();
+        $friends = $friendModel->getWaitingFriends($userID);
+        
+        if (count($friends) > 0) {
+            foreach($friends as $friend) {
+                $output[$friend->request_id] = $friend->first_name.' '.$friend->last_name;
+            }
+        } 
+      
+        return $output;
+    }
+  
+    public function friendAction()
+    {
+        $friendRequestID = Input::get('request_id');
+        $isAccept = Input::get('approve_function');
+      
+        if ($isAccept) {
+              $friendModel = new Friend();
+              $friendModel->acceptRequest($friendRequestID);
+              return Redirect::to('friends')->with('message', 'Request Accepted');
+        } else {
+              $friendModel = Friend::find($friendRequestID);
+              $friendModel->delete();
+              return Redirect::to('friends')->with('message', 'Request Declined');
+        }
+    }
+  
+    public function friendDeleteAction()
+    {
+        $friendUserID = Input::get('friend_user_id');
+        $userID = Auth::user()->id;
+      
+        $friendModel = new Friend();
+        $friendModel->deleteFriend($userID, $friendUserID);
+      
+        return Redirect::to('friends')->with('message', 'Friend Removed');
     }
 }

@@ -23,7 +23,9 @@ class Post extends Eloquent {
     {
         $posts = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
+            ->where('posts.user_id', '=', $userID)
             ->select('users.id as user_id', 'users.first_name', 'users.last_name','posts.id as post_id' , 'posts.post_data', 'posts.updated_at')
+            ->orderBy('posts.updated_at', 'desc')
             ->get();
         
         $output = array();

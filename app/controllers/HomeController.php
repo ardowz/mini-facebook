@@ -34,4 +34,9 @@ class HomeController extends BaseController {
         
         return $output;
     }
+
+    public function welcome()
+    {
+        return View::make('welcome');
+    }
 }

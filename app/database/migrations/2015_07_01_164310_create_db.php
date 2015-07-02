@@ -13,17 +13,19 @@ class CreateDb extends Migration {
 	public function up()
 	{
       Schema::create('users', function($table) {
+        $table->engine = 'InnoDB';
         $table->increments('id');
         $table->string('email');
         $table->string('password');
         $table->string('first_name');
         $table->string('last_name');
         $table->tinyInteger('role_id')->unsigned()->default(0);
+        $table->rememberToken();
         $table->timestamps();
         $table->unique('email');
       });
     
-      DB::statement('ALTER TABLE `users` ADD FULLTEXT (last_name, first_name, email)');
+//       DB::statement('ALTER TABLE `users` ADD FULLTEXT INDEX (last_name, first_name)');
     
       Schema::create('posts', function($table) {
         $table->increments('id');
@@ -57,7 +59,7 @@ class CreateDb extends Migration {
 	{
      Schema::drop('friends');
      Schema::drop('posts');
-     Schema:;drop('users');
+     Schema::drop('users');
 	}
 
 }
